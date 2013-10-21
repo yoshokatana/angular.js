@@ -148,6 +148,22 @@ describe('form', function() {
       }).toThrowMinErr('ng', 'badname');
   });
 
+  it('should trigger "submit" event for ngForm when clicking inputs with type="submit"', function() {
+    var callback = jasmine.createSpy('submit').andCallFake(function(event) {
+      expect(event.isDefaultPrevented()).toBe(false);
+      event.preventDefault();
+    });
+
+    doc = $compile('<div ng-form="form">'+
+      '<input name="some" ng-model="some" />'+
+      '<input type="submit" value="Submit" />'+
+      '</div>')(scope);
+    doc.on('submit', callback);
+
+    browserTrigger(doc.find('input[type=submit]'), 'click');
+    expect(callback).toHaveBeenCalledOnce();
+  });
+
 
   describe('preventing default submission', function() {
 

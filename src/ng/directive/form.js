@@ -330,6 +330,14 @@ var formDirectiveFactory = function(isNgForm) {
 
               addEventListenerFn(formElement[0], 'submit', preventDefaultListener);
 
+              if(isNgForm && formElement.children('input[type=submit]')) {
+                if(formElement.children('input[type=submit]')) {
+                  formElement.children('input[type=submit]').on('click', function() {
+                    formElement.trigger('submit');
+                  });
+                }
+              }
+
               // unregister the preventDefault listener so that we don't not leak memory but in a
               // way that will achieve the prevention of the default action.
               formElement.on('$destroy', function() {
